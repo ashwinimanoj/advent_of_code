@@ -3,4 +3,4 @@
 
 ## Run
 
-``` go run <file.go> ```
+``` go run mass.go ```
