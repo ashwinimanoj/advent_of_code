@@ -15,9 +15,7 @@ func checkError(err error) {
 }
 
 func addfn(values []int64, index int64) []int64 {
-	fmt.Println(values)
 	values[values[index+3]] = values[values[index+1]] + values[values[index+2]]
-	fmt.Println(values)
 	return values
 }
 
@@ -27,7 +25,6 @@ func multiplyFn(values []int64, index int64) []int64 {
 }
 
 func manipulate(values []int64, index int64) []int64 {
-	fmt.Println(values, index)
 	var currentOpcode = values[index]
 	switch currentOpcode {
 	case 1:
@@ -40,6 +37,7 @@ func manipulate(values []int64, index int64) []int64 {
 		return values
 	default:
 		fmt.Println("invalid")
+		return values
 	}
 	return values
 }
@@ -63,9 +61,21 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	scanner.Scan()
 	values := strings.Split(scanner.Text(), ",")
-	integerValues := toIntArray(values)
-	integerValues[1] = 12
-	integerValues[2] = 2
-	fmt.Println(manipulate(integerValues, 0)[0])
-
+	const expected = 19690720
+	var answer int64 = 0
+	var noun int64
+	var verb int64
+	var found bool = false
+	for noun = 0; noun <= 99 && !found; noun++ {
+		for verb = 0; verb <= 99 && !found; verb++ {
+			integerValues := toIntArray(values)
+			integerValues[1] = noun
+			integerValues[2] = verb
+			answer = manipulate(integerValues, 0)[0]
+			if answer == expected {
+				fmt.Println(100*noun + verb)
+				found = true
+			}
+		}
+	}
 }
