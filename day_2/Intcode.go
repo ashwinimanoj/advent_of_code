@@ -72,6 +72,7 @@ func main() {
 			integerValues[1] = noun
 			integerValues[2] = verb
 			answer = manipulate(integerValues, 0)[0]
+			fmt.Println("answer", answer)
 			if answer == expected {
 				fmt.Println(100*noun + verb)
 				found = true
