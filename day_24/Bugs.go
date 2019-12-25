@@ -92,14 +92,30 @@ func calculateBiodiversity(grid [5][5]string) int {
 
 func isFound(totalResults [][5][5]string, newGrid [5][5]string) bool {
 	found := false
-	for _, grid := range totalResults {
+	for index, grid := range totalResults {
 		if grid == newGrid {
 			found = true
+			fmt.Println("prev found after", index+1, "minutes")
 			break
 		}
 	}
-	fmt.Println(found, "----found----")
 	return found
+}
+
+func partA(grid [5][5]string) {
+	var totalResults [][5][5]string
+	for k := 0; k < 90; k++ {
+		var newGrid [5][5]string
+		newGrid = minuteChange(grid)
+		fmt.Println("-----After ", k+1, " minute ------")
+		printGrid(newGrid)
+		if isFound(totalResults, newGrid) {
+			fmt.Println("BIODIVERSITY --------- : ", calculateBiodiversity(newGrid))
+			break
+		}
+		totalResults = append(totalResults, newGrid)
+		grid = newGrid
+	}
 }
 
 func main() {
@@ -120,19 +136,5 @@ func main() {
 		i++
 	}
 
-	var totalResults [][5][5]string
-
-	for k := 0; k < 90; k++ {
-		var newGrid [5][5]string
-		newGrid = minuteChange(grid)
-		if isFound(totalResults, newGrid) {
-			printGrid(newGrid)
-			fmt.Println("BIODIVERSITY --------- : ", calculateBiodiversity(newGrid))
-			break
-		}
-		fmt.Println("-----After ", k+1, " minute ------")
-		printGrid(newGrid)
-		totalResults = append(totalResults, newGrid)
-		grid = newGrid
-	}
+	partA(grid)
 }
