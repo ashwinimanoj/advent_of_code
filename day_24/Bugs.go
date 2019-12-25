@@ -50,18 +50,22 @@ func adjacentBugs(i int, j int, grid [5][5]string) int {
 	return bugs
 }
 
+func currentSymbol(oldSymbol string, adjacentBugs int) string {
+	if oldSymbol == bugSymbol && adjacentBugs != 1 {
+		return emptySpaceSymbol
+	}
+	if oldSymbol == emptySpaceSymbol && (adjacentBugs == 1 || adjacentBugs == 2) {
+		return bugSymbol
+	}
+	return oldSymbol
+}
+
 func minuteChange(grid [5][5]string) [5][5]string {
 	var newGrid [5][5]string
 	for i := 0; i < 5; i++ {
 		for j := 0; j < 5; j++ {
 			adjacentBugs := adjacentBugs(i, j, grid)
-			if grid[i][j] == bugSymbol && adjacentBugs != 1 {
-				newGrid[i][j] = emptySpaceSymbol
-			} else if grid[i][j] == emptySpaceSymbol && (adjacentBugs == 1 || adjacentBugs == 2) {
-				newGrid[i][j] = bugSymbol
-			} else {
-				newGrid[i][j] = grid[i][j]
-			}
+			newGrid[i][j] = currentSymbol(grid[i][j], adjacentBugs)
 		}
 	}
 	return newGrid
